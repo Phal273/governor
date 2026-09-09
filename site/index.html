@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Governor — spend fewer tokens</title>
+  <meta name="description" content="Governor is a Cursor/VS Code extension that cuts agent token waste with scoping, lean briefs, and bloat control." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="glow"></div>
+  <main>
+    <p class="eyebrow">governor.zoitra.com</p>
+    <h1>Spend fewer tokens.<br/>Ship tighter agent runs.</h1>
+    <p class="lede">Governor keeps Cursor and VS Code agents inside a lean scope: meter open editors, warn on bloat, install ignore rules, and draft briefs from your selection.</p>
+    <div class="cta">
+      <a class="btn primary" href="#install">Install the VSIX</a>
+      <a class="btn" href="https://github.com/Phal273/governor">GitHub</a>
+    </div>
+    <section class="grid">
+      <article><h2>Meter</h2><p>See estimated tokens sitting in open editors before you paste another wall of context.</p></article>
+      <article><h2>Ignore</h2><p>One command installs a lean .cursorignore so agents skip lockfiles, media, and build output.</p></article>
+      <article><h2>Brief</h2><p>Turn a selection into a constrained brief you can drop into chat without dragging the whole repo along.</p></article>
+      <article><h2>Bloat</h2><p>Scan for heavy paths that quietly burn budget every time an agent indexes the tree.</p></article>
+    </section>
+    <section id="install" class="install">
+      <h2>Install</h2>
+      <ol>
+        <li>Download <code>governor-0.1.0.vsix</code> from <a href="https://github.com/Phal273/governor">GitHub</a> or build it locally.</li>
+        <li>In VS Code or Cursor: Extensions → <strong>Install from VSIX...</strong> — or run <code>code --install-extension governor-0.1.0.vsix</code> / <code>cursor --install-extension governor-0.1.0.vsix</code>.</li>
+        <li>Reload, then open the Governor activity bar icon.</li>
+      </ol>
+    </section>
+    <footer>MIT · Ethan Mooneyham · 2026</footer>
+  </main>
+</body>
+</html>

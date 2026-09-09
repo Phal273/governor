@@ -1,0 +1,118 @@
+{
+  "name": "governor",
+  "displayName": "Governor",
+  "description": "Reduce token and cost waste via smart scoping.",
+  "version": "0.1.0",
+  "publisher": "governor",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "cursor",
+    "tokens",
+    "cost",
+    "agent",
+    "scope",
+    "brief"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "icon": "media/governor.png",
+  "contributes": {
+    "commands": [
+      {
+        "command": "governor.open",
+        "title": "Governor: Open Panel",
+        "icon": "$(dashboard)"
+      },
+      {
+        "command": "governor.refresh",
+        "title": "Governor: Refresh Meter"
+      },
+      {
+        "command": "governor.installCursorignore",
+        "title": "Governor: Install/Upgrade .cursorignore"
+      },
+      {
+        "command": "governor.installRules",
+        "title": "Governor: Install Lean Rules"
+      },
+      {
+        "command": "governor.draftBrief",
+        "title": "Governor: Draft Lean Brief"
+      },
+      {
+        "command": "governor.scanBloat",
+        "title": "Governor: Scan Bloat"
+      },
+      {
+        "command": "governor.copyBrief",
+        "title": "Governor: Copy Brief to Clipboard"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "governor",
+          "title": "Governor",
+          "icon": "media/governor.svg"
+        }
+      ]
+    },
+    "views": {
+      "governor": [
+        {
+          "type": "webview",
+          "id": "governor.panel",
+          "name": "Governor"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Governor",
+      "properties": {
+        "governor.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Governor token meter in the status bar."
+        },
+        "governor.warnFileBytes": {
+          "type": "number",
+          "default": 400000,
+          "description": "Warn when opening a file larger than this many bytes."
+        },
+        "governor.charsPerToken": {
+          "type": "number",
+          "default": 4,
+          "description": "Characters per token estimate for the open-editor meter."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --no-dependencies",
+    "build": "npm run compile && npm run package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.24.0",
+    "typescript": "^5.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Phal273/governor.git"
+  },
+  "homepage": "https://governor.zoitra.com",
+  "bugs": {
+    "url": "https://github.com/Phal273/governor/issues"
+  }
+}
