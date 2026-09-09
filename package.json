@@ -2,7 +2,7 @@
   "name": "governor",
   "displayName": "Governor",
   "description": "Reduce token and cost waste via smart scoping.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "governor",
   "engines": {
     "vscode": "^1.85.0"
@@ -91,6 +91,11 @@
           "type": "number",
           "default": 4,
           "description": "Characters per token estimate for the open-editor meter."
+        },
+        "governor.softTokenBudget": {
+          "type": "number",
+          "default": 32000,
+          "description": "Soft token budget used to scale the panel gauge (0-100%)."
         }
       }
     }

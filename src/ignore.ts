@@ -50,39 +50,72 @@ export const DEFAULT_PATTERNS: string[] = [
 
 const MARKER = "# Governor lean ignore";
 
+const END_MARKER = "# End Governor lean ignore";
+
+function defaultBlock(): string {
+  return DEFAULT_PATTERNS.join("\n") + "\n" + END_MARKER + "\n";
+}
+
+function stripGovernorBlock(existing: string): string[] {
+  const lines = existing.split(/\r?\n/);
+  const kept: string[] = [];
+  let inGov = false;
+  for (const line of lines) {
+    if (line.startsWith(MARKER)) {
+      inGov = true;
+      continue;
+    }
+    if (inGov) {
+      if (line === END_MARKER || line.startsWith(END_MARKER)) {
+        inGov = false;
+        continue;
+      }
+      if (line.trim() === "") continue;
+      if (DEFAULT_PATTERNS.includes(line)) continue;
+      inGov = false;
+      kept.push(line);
+      continue;
+    }
+    kept.push(line);
+  }
+  return kept;
+}
+
 export async function installOrUpgradeCursorignore(workspaceFolder: vscode.WorkspaceFolder): Promise<string> {
   const fileName = "." + "cursor" + "ignore";
   const filePath = path.join(workspaceFolder.uri.fsPath, fileName);
-  const desired = DEFAULT_PATTERNS.join("\n") + "\n";
+  const desired = defaultBlock();
+
   if (!fs.existsSync(filePath)) {
     fs.writeFileSync(filePath, desired, "utf8");
     return "created";
   }
+
   const existing = fs.readFileSync(filePath, "utf8");
+  const defaultSet = new Set(DEFAULT_PATTERNS);
+  defaultSet.add(END_MARKER);
+
   if (existing.includes(MARKER)) {
-    const kept: string[] = [];
-    let inGov = false;
-    let sawGov = false;
-    for (const line of existing.split(/\r?\n/)) {
-      if (line.startsWith(MARKER)) { inGov = true; sawGov = true; continue; }
-      if (inGov) {
-        if (line.trim() === "") { inGov = false; continue; }
-        if (DEFAULT_PATTERNS.includes(line) || (!line.startsWith("#") && line.trim() !== "")) continue;
-        inGov = false;
-      }
-      kept.push(line);
+    const userLines = stripGovernorBlock(existing);
+    const out: string[] = [...DEFAULT_PATTERNS, END_MARKER];
+    const seen = new Set(out);
+    for (const line of userLines) {
+      if (!line.trim()) continue;
+      if (seen.has(line) || defaultSet.has(line)) continue;
+      if (line.startsWith(MARKER) || line.startsWith(END_MARKER)) continue;
+      out.push(line);
+      seen.add(line);
     }
-    const merged = new Set<string>(DEFAULT_PATTERNS);
-    const outLines: string[] = [...DEFAULT_PATTERNS];
-    for (const line of kept) {
-      if (!line.trim() || merged.has(line)) continue;
-      outLines.push(line);
-      merged.add(line);
-    }
-    fs.writeFileSync(filePath, outLines.join("\n") + "\n", "utf8");
-    return sawGov ? "upgraded" : "merged";
+    fs.writeFileSync(filePath, out.join("\n") + "\n", "utf8");
+    return "upgraded";
   }
-  const mergedText = desired + "\n# --- previous file ---\n" + existing;
-  fs.writeFileSync(filePath, mergedText.endsWith("\n") ? mergedText : mergedText + "\n", "utf8");
+
+  const userLines = existing.split(/\r?\n/).filter((line) => {
+    if (!line.trim()) return false;
+    if (defaultSet.has(line) || DEFAULT_PATTERNS.includes(line)) return false;
+    return true;
+  });
+  const out = [...DEFAULT_PATTERNS, END_MARKER, ...userLines];
+  fs.writeFileSync(filePath, out.join("\n") + "\n", "utf8");
   return "merged";
 }

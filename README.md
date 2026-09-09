@@ -23,15 +23,15 @@ drafts tight briefs from your selection, and keeps a dark/gold control panel in 
 
 ```bash
 # VS Code
-code --install-extension governor-0.1.0.vsix
+code --install-extension governor-0.1.1.vsix
 
 # Cursor
-cursor --install-extension governor-0.1.0.vsix
+cursor --install-extension governor-0.1.1.vsix
 ```
 
 ### From the UI
 
-1. Download `governor-0.1.0.vsix` from Releases or build it locally
+1. Download `governor-0.1.1.vsix` from Releases or build it locally
 2. VS Code / Cursor: Extensions view → `...` → **Install from VSIX...**
 3. Reload the window
 4. Open the **Governor** icon in the activity bar
@@ -56,6 +56,7 @@ cursor --install-extension governor-0.1.0.vsix
 | `governor.showStatusBar` | `true` | Show the token meter in the status bar |
 | `governor.warnFileBytes` | `400000` | Warn when opening files larger than this |
 | `governor.charsPerToken` | `4` | Characters-per-token estimate |
+| `governor.softTokenBudget` | `32000` | Soft budget for the panel gauge |
 
 ## Build
 
@@ -67,7 +68,7 @@ npm run compile
 npm run package
 ```
 
-That produces `governor-0.1.0.vsix` in the repo root.
+That produces `governor-0.1.1.vsix` in the repo root.
 
 ## License
 

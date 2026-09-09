@@ -5,7 +5,7 @@ src/**
 tsconfig.json
 **/*.ts
 **/*.map
-!out/**
+out/**/*.map
 site/**
 *.vsix
 .git/**
